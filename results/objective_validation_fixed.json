@@ -1,0 +1,140 @@
+{
+  "tag": "fixed",
+  "passed": 19,
+  "total": 19,
+  "checks": [
+    {
+      "check": "DPO loss at policy==ref",
+      "got": 0.6931471824645996,
+      "expected": 0.6931471805599453,
+      "pass": true,
+      "note": "must be ln2 for every pair"
+    },
+    {
+      "check": "DPO logit mean at policy==ref",
+      "got": 0.0,
+      "expected": 0.0,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "check": "DPO loss, margins (2,1), beta 0.1",
+      "got": 0.6443966627120972,
+      "expected": 0.6443966600735709,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "check": "PPO objective A=+1, rho=1.5",
+      "got": 1.2000000476837158,
+      "expected": 1.2,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "check": "PPO grad-is-zero A=+1, rho=1.5",
+      "got": 1.0,
+      "expected": 1.0,
+      "pass": true,
+      "note": "brake on"
+    },
+    {
+      "check": "PPO objective A=+1, rho=0.5",
+      "got": 0.5,
+      "expected": 0.5,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "check": "PPO grad-is-zero A=+1, rho=0.5",
+      "got": 0.0,
+      "expected": 0.0,
+      "pass": true,
+      "note": "gradient must flow"
+    },
+    {
+      "check": "PPO objective A=-1, rho=0.5",
+      "got": -0.800000011920929,
+      "expected": -0.8,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "check": "PPO grad-is-zero A=-1, rho=0.5",
+      "got": 1.0,
+      "expected": 1.0,
+      "pass": true,
+      "note": "brake on"
+    },
+    {
+      "check": "PPO objective A=-1, rho=1.5",
+      "got": -1.5,
+      "expected": -1.5,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "check": "PPO grad-is-zero A=-1, rho=1.5",
+      "got": 0.0,
+      "expected": 0.0,
+      "pass": true,
+      "note": "gradient must flow"
+    },
+    {
+      "check": "GRPO advantage[0] (group 0)",
+      "got": 0.0,
+      "expected": 0.0,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "check": "GRPO advantage[1] (group 0)",
+      "got": 0.0,
+      "expected": 0.0,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "check": "GRPO advantage[2] (group 0)",
+      "got": 0.0,
+      "expected": 0.0,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "check": "GRPO advantage[3] (group 0)",
+      "got": 0.0,
+      "expected": 0.0,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "check": "GRPO advantage[4] (group 1)",
+      "got": -1.0,
+      "expected": -1.0,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "check": "GRPO advantage[5] (group 1)",
+      "got": 1.0,
+      "expected": 1.0,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "check": "GRPO advantage[6] (group 1)",
+      "got": -1.0,
+      "expected": -1.0,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "check": "GRPO advantage[7] (group 1)",
+      "got": 1.0,
+      "expected": 1.0,
+      "pass": true,
+      "note": ""
+    }
+  ]
+}

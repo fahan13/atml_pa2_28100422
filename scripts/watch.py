@@ -48,11 +48,32 @@ def task1_runs():
     rd = ROOT / "results" / "task1_dpo"
     runs = [("standard", totals["standard"])] + [(b, totals["short"]) for b in totals["betas"]] \
         + [("length_balanced", totals["length_balanced"])]
+    cols = {"step": "step", "m1": ("loss", "{:.4f}"), "m2": ("acc", "{:.2f}", 10), "trend": "loss"}
     return [(name, rd / f"{name}_train_log.jsonl", rd / f"{name}_train_summary.json",
-             rd / f"eval_{name}.json", total) for name, total in runs], ROOT / "logs" / "task1.log"
+             rd / f"eval_{name}.json", total, cols) for name, total in runs], ROOT / "logs" / "task1.log"
 
 
-TASKS = {1: ("Task 1 - DPO", task1_runs)}
+def task2_runs():
+    import yaml
+    cfg = yaml.safe_load((ROOT / "configs" / "ppo.yaml").read_text())
+    rd = ROOT / "results" / "task2_ppo"
+    eps0, b0 = float(cfg["clip_epsilon"]), float(cfg["kl_beta"])
+    forks = []
+    for b in cfg["kl_values"]:
+        forks.append((eps0, float(b)))
+    for e in cfg["clip_values"]:
+        if (float(e), b0) not in forks:
+            forks.append((float(e), b0))
+    names = [("standard", int(cfg["updates"]))] + [
+        (f"fork_eps{e:.2f}_kl{b:.2f}", int(cfg["fork_updates"])) for e, b in forks]
+    cols = {"step": "update", "m1": ("reward", "{:+.3f}"), "m2": ("kl", "{:+.4f}", 1), "trend": "reward"}
+    runs = [(n, rd / f"{n}_train_log.jsonl", rd / f"{n}_train_summary.json", rd / f"eval_{n}.json", t, cols)
+            for n, t in names]
+    runs.append(("midpoint (eval)", rd / "_none_", rd / "_none_", rd / "eval_midpoint.json", 0, cols))
+    return runs, ROOT / "logs" / "task2.log"
+
+
+TASKS = {1: ("Task 1 - DPO", task1_runs), 2: ("Task 2 - PPO", task2_runs)}
 
 
 # ----------------------------------------------------------------------------- helpers
@@ -115,11 +136,17 @@ def last_error(main_log):
 def render(title, runs, main_log):
     lines = [f"{B}{title}{X}   {D}{time.strftime('%H:%M:%S')}  (Ctrl+C to quit; training is unaffected){X}",
              gpu_line(), ""]
-    lines.append(f"{'run':<16}{'train':<9}{'progress':<30}{'loss':>7}{'acc~':>7}  {'loss trend':<26}{'ETA':>8}  eval")
-    total_left, now = 0.0, time.time()
-    for name, log, summ, ev, total in runs:
+    c0 = runs[0][5]
+    h1, h2, ht = c0["m1"][0], c0["m2"][0] + ("~" if c0["m2"][2] > 1 else ""), c0["trend"] + " trend"
+    lines.append(f"{'run':<22}{'train':<9}{'progress':<30}{h1:>9}{h2:>9}  {ht:<26}{'ETA':>8}  eval")
+    now = time.time()
+    for name, log, summ, ev, total, cols in runs:
+        if total == 0:              # evaluation-only row
+            evs = f"{G}done{X}" if ev.exists() else f"{D}-{X}"
+            lines.append(f"{name:<22}{D}{'(eval only)':<9}{X}{'':<30}{'':>9}{'':>9}  {'':<26}{'':>8}  {evs}")
+            continue
         rows = read_log(log)
-        step = rows[-1]["step"] if rows else 0
+        step = rows[-1][cols["step"]] if rows else 0
         if summ.exists():
             status = f"{G}done{X}     "
         elif rows and now - log.stat().st_mtime < 180:
@@ -130,20 +157,22 @@ def render(title, runs, main_log):
             status = f"{D}pending{X}  "
         frac = min(step / total, 1.0) if total else 0
         prog = f"{bar(frac)} {step:>3}/{total}"
-        loss = f"{rows[-1]['loss']:.4f}" if rows else "-"
-        acc_window = [r["acc"] for r in rows[-10:]]
-        acc = f"{sum(acc_window) / len(acc_window):.2f}" if acc_window else "-"
+        k1, f1 = cols["m1"]
+        k2, f2, win = cols["m2"]
+        loss = f1.format(rows[-1][k1]) if rows else "-"
+        w = [r[k2] for r in rows[-win:]]
+        acc = f2.format(sum(w) / len(w)) if w else "-"
         if rows and not summ.exists():
             per_step = rows[-1]["elapsed_s"] / max(step, 1)
             left = (total - step) * per_step
-            total_left += left
             eta = fmt_t(left)
         else:
             eta = "-" if not summ.exists() else ""
         evs = f"{G}done{X}" if ev.exists() else f"{D}-{X}"
-        lines.append(f"{name:<16}{status}{prog:<30}{loss:>7}{acc:>7}  {spark([r['loss'] for r in rows]):<26}{eta:>8}  {evs}")
+        lines.append(f"{name:<22}{status}{prog:<30}{loss:>9}{acc:>9}  {spark([r[cols['trend']] for r in rows]):<26}{eta:>8}  {evs}")
     lines.append("")
-    lines.append(f"{D}acc~ = mean training accuracy over the last 10 steps (noisy by design).{X}")
+    if c0["m2"][2] > 1:
+        lines.append(f"{D}{h2} = mean over the last {c0['m2'][2]} steps (noisy by design).{X}")
     err = last_error(main_log)
     if err:
         lines.append(f"{R}{B}A traceback is in {main_log.name}:{X}")
@@ -156,15 +185,20 @@ def save_plot(runs, path):
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     fig, axes = plt.subplots(1, 2, figsize=(11, 3.8))
-    for name, log, *_ in runs:
-        rows = read_log(log)
+    for name, log, summ, ev, total, cols in runs:
+        rows = read_log(log) if total else []
         if rows:
-            s = [r["step"] for r in rows]
-            axes[0].plot(s, [r["loss"] for r in rows], label=name)
-            axes[1].plot(s, [r["grad_norm"] for r in rows], label=name)
-    axes[0].axhline(math.log(2), ls=":", c="grey", lw=1)
-    axes[0].set(title="training DPO loss (dotted = ln 2)", xlabel="optimizer step")
-    axes[1].set(title="gradient norm (pre-clip)", xlabel="optimizer step")
+            s = [r[cols["step"]] for r in rows]
+            axes[0].plot(s, [r[cols["trend"]] for r in rows], label=name)
+            axes[1].plot(s, [r[cols["m2"][0]] if cols["m2"][0] != "acc" else r["grad_norm"] for r in rows], label=name)
+    c0 = runs[0][5]
+    if c0["trend"] == "loss":
+        axes[0].axhline(math.log(2), ls=":", c="grey", lw=1)
+        axes[0].set(title="training DPO loss (dotted = ln 2)", xlabel="optimizer step")
+        axes[1].set(title="gradient norm (pre-clip)", xlabel="optimizer step")
+    else:
+        axes[0].set(title="rollout reward (learned RM)", xlabel="update")
+        axes[1].set(title="sampled KL to reference (token mean)", xlabel="update")
     axes[0].legend(fontsize=8)
     fig.tight_layout()
     fig.savefig(path, dpi=110)

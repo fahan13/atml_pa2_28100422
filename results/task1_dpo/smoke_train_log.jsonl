@@ -1,2 +1,0 @@
-{"loss": 0.6931471824645996, "acc": 0.0, "logit": 0.0, "chosen_reward": 0.0, "rejected_reward": 0.0, "step": 1, "pairs_seen": 16, "grad_norm": 2.1524384021759033, "grad_scale": 65536.0, "elapsed_s": 16.0, "peak_vram_gb": 4.5}
-{"loss": 0.6922123581171036, "acc": 0.6875, "logit": 0.0019030573457712308, "chosen_reward": 8.225382771342993e-06, "rejected_reward": -0.0018950702215079218, "step": 2, "pairs_seen": 32, "grad_norm": 1.957527995109558, "grad_scale": 65536.0, "elapsed_s": 34.1, "peak_vram_gb": 4.5}

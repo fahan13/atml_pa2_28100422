@@ -1,0 +1,39 @@
+{
+  "name": "sft",
+  "adapter": "none",
+  "beta_for_loss": 0.1,
+  "generation": {
+    "n_prompts": 200,
+    "kl_token_mean": 0.0,
+    "kl_sequence_mean": 0.0,
+    "length": {
+      "mean": 168.11,
+      "std": 101.38785874058095,
+      "median": 240.5,
+      "iqr": 192.5,
+      "n": 200
+    },
+    "truncated_rate": 0.475,
+    "reward_mean": 1.3723181915283202,
+    "reward_std": 1.1076540458173048
+  },
+  "word_limit": {
+    "compliance": 0.6,
+    "n": 10,
+    "words": {
+      "mean": 45.8,
+      "std": 33.180717291824784,
+      "median": 30.0,
+      "iqr": 40.75,
+      "n": 10
+    },
+    "tokens": {
+      "mean": 53.5,
+      "std": 38.46361917448747,
+      "median": 37.0,
+      "iqr": 45.5,
+      "n": 10
+    }
+  },
+  "wall_clock_s": 738.1
+}

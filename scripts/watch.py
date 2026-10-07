@@ -73,7 +73,21 @@ def task2_runs():
     return runs, ROOT / "logs" / "task2.log"
 
 
-TASKS = {1: ("Task 1 - DPO", task1_runs), 2: ("Task 2 - PPO", task2_runs)}
+def task3_runs():
+    import yaml
+    cfg = yaml.safe_load((ROOT / "configs" / "grpo.yaml").read_text())
+    rd = ROOT / "results" / "task3_grpo"
+    names = [("standard", int(cfg["updates"])), ("fork_grpo", int(cfg["fork_updates"])),
+             ("fork_dr_grpo", int(cfg["fork_updates"]))]
+    cols = {"step": "update", "m1": ("reward", "{:+.3f}"), "m2": ("reward_std_within_group", "{:.3f}", 1),
+            "trend": "reward"}
+    runs = [(n, rd / f"{n}_train_log.jsonl", rd / f"{n}_train_summary.json", rd / f"eval_{n}.json", t, cols)
+            for n, t in names]
+    runs.append(("midpoint (eval)", rd / "_none_", rd / "_none_", rd / "eval_midpoint.json", 0, cols))
+    return runs, ROOT / "logs" / "task3.log"
+
+
+TASKS = {1: ("Task 1 - DPO", task1_runs), 2: ("Task 2 - PPO", task2_runs), 3: ("Task 3 - GRPO", task3_runs)}
 
 
 # ----------------------------------------------------------------------------- helpers
@@ -198,7 +212,8 @@ def save_plot(runs, path):
         axes[1].set(title="gradient norm (pre-clip)", xlabel="optimizer step")
     else:
         axes[0].set(title="rollout reward (learned RM)", xlabel="update")
-        axes[1].set(title="sampled KL to reference (token mean)", xlabel="update")
+        axes[1].set(title=("sampled KL to reference (token mean)" if c0["m2"][0] == "kl"
+                           else "mean within-group reward std"), xlabel="update")
     axes[0].legend(fontsize=8)
     fig.tight_layout()
     fig.savefig(path, dpi=110)

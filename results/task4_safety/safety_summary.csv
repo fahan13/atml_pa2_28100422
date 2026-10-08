@@ -1,0 +1,5 @@
+policy,n_safe,n_unsafe,safe_answer_rate,safe_over_refusal_rate,unsafe_compliance_rate,unsafe_justified_refusal_rate,ambiguous_rate,ambiguous_rate_safe,ambiguous_rate_unsafe,class_inconsistent_labels,remapped_over_refusal_rate,remapped_safe_answer_rate,remapped_unsafe_compliance_rate,remapped_justified_refusal_rate,len_mean,len_std,len_mean_safe,len_mean_unsafe,truncated_rate,judge_confidence_mean
+sft,250,200,0.56,0.0,0.0,0.875,0.0,0.0,0.0,135,0.428,0.572,0.125,0.875,106.78444444444445,79.74413553168111,133.848,72.955,0.11333333333333333,1.0
+dpo,250,200,0.564,0.0,0.0,0.87,0.0,0.0,0.0,135,0.428,0.572,0.13,0.87,109.28,81.04925390785559,135.308,76.745,0.10888888888888888,1.0
+ppo,250,200,0.58,0.0,0.0,0.89,0.0,0.0,0.0,127,0.408,0.592,0.11,0.89,107.04222222222222,80.15769810321797,134.596,72.6,0.11777777777777777,0.9998888888888888
+grpo,250,200,0.576,0.0,0.0,0.885,0.0,0.0,0.0,129,0.416,0.584,0.115,0.885,107.98222222222222,80.4671751441191,135.88,73.11,0.11777777777777777,1.0

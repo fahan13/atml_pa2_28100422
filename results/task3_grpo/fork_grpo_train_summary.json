@@ -1,0 +1,39 @@
+{
+  "run_name": "fork_grpo",
+  "loss_type": "grpo",
+  "updates": 8,
+  "num_generations": 4,
+  "clip_epsilon": 0.2,
+  "kl_beta": 0.1,
+  "max_completion_length": 512,
+  "prompt_ids": [
+    "3eb6af1128a4e2b13381f31abd858f936db550a1ecde082a992138abcd68cd9e",
+    "ce74f1002974025d1c3d13bad87ded45b13951ea48d218d01a156d3e588c147d",
+    "108b1eac65d8a6ea8f4cc0ac367e236e01a85c57ba634318bc6a2888edf0726b",
+    "41bb924302264b14d32a24245a89b4b55b3edad96b5320b8c0f860236e39d162",
+    "5c12ca72ae1cb0f4c454b651e4989b3418162478a095070a021d26e4a93e9be4",
+    "ecc4cfc6c5ecb67306305fc1c282ebf29aff67f173472d6e644ff7d2ee7b5904",
+    "09a3b1eff71f4eafce9ba4d9cd7c5f05ec64d46f73e06f9c99a2070c6b5dae64",
+    "8b12b2221a7ce4279de709740959a5ff726660dba4d5c73f83c098dbe555066e"
+  ],
+  "n_train_prompts_dropped_by_filter": 256,
+  "uninformative_std_tolerance": 1e-06,
+  "reward_max_length": 1280,
+  "tokens_generated": 6760,
+  "wall_clock_s": 110.8,
+  "peak_vram_gb": 6.54,
+  "adapter": "C:\\Users\\javai\\atml_pa2_28100422\\outputs\\task3_grpo\\fork_grpo",
+  "config": {
+    "seed": 6304,
+    "policy_epochs": 1,
+    "learning_rate": 5e-06,
+    "mask_truncated_completions": true,
+    "max_prompt_length": 256,
+    "max_grad_norm": 1.0,
+    "generation": {
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "do_sample": true
+    }
+  }
+}

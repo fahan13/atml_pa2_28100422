@@ -1,0 +1,21 @@
+{
+  "name": "midpoint",
+  "adapter": "checkpoints/grpo_midpoint_policy",
+  "n_prompts": 165,
+  "n_eval_prompts_dropped_by_filter": 35,
+  "max_new_tokens": 768,
+  "reward_mean": 1.8826714226693817,
+  "reward_std": 1.1369001417542082,
+  "kl_token_mean": 1.4202087437694147e-05,
+  "kl_sequence_mean": 0.004384055282130386,
+  "entropy_token_mean": 0.780626004382663,
+  "length": {
+    "mean": 308.6909090909091,
+    "std": 256.3819739841747,
+    "median": 251.0,
+    "iqr": 448.0,
+    "n": 165
+  },
+  "truncated_rate": 0.06060606060606061,
+  "wall_clock_s": 590.6
+}

@@ -1,0 +1,51 @@
+{
+  "run_name": "standard",
+  "loss_type": "grpo",
+  "updates": 20,
+  "num_generations": 4,
+  "clip_epsilon": 0.2,
+  "kl_beta": 0.1,
+  "max_completion_length": 512,
+  "prompt_ids": [
+    "3eb6af1128a4e2b13381f31abd858f936db550a1ecde082a992138abcd68cd9e",
+    "ce74f1002974025d1c3d13bad87ded45b13951ea48d218d01a156d3e588c147d",
+    "108b1eac65d8a6ea8f4cc0ac367e236e01a85c57ba634318bc6a2888edf0726b",
+    "41bb924302264b14d32a24245a89b4b55b3edad96b5320b8c0f860236e39d162",
+    "5c12ca72ae1cb0f4c454b651e4989b3418162478a095070a021d26e4a93e9be4",
+    "ecc4cfc6c5ecb67306305fc1c282ebf29aff67f173472d6e644ff7d2ee7b5904",
+    "09a3b1eff71f4eafce9ba4d9cd7c5f05ec64d46f73e06f9c99a2070c6b5dae64",
+    "8b12b2221a7ce4279de709740959a5ff726660dba4d5c73f83c098dbe555066e",
+    "80a3be5a0371d57e318f6ade30dec98079853ca535502a5a8137d4aee9155aa4",
+    "97c93b3a4f2572853bca42c450a28f6bbbdb2a5996d1bc50b1138615e8f7135f",
+    "441eaa66035da777d253aa728417f0636c3367c510a1e054c5fccb77c2b185f1",
+    "fcbfe08e6d55892368371504d579cc6945819fdee88968d810e4ff0cb3c200e0",
+    "83a5a7a92fb6addd39c9e86afb049b8892474b8d5987f4247dec89489b22d7bc",
+    "b8ed320a4c399dce8b95536984d222e88f884663675234261406eabb90efc817",
+    "6baafd50645b584f2b17ed0efd9afec3dcfbdc92ef90867a09dbaa9abfd226df",
+    "38d3195fb2def60a4e78478814a9007b5f24682935bf91cf3d309bff524be950",
+    "9c35c5475aa74a91610ce440ef8ce7bfd543084e6c1156a5ba233a9ac3c67b7a",
+    "a1d7645f9eb58fab3a2cf8787ac367e0c5075f96f5308c60cbe49d3e117ac7d5",
+    "0c3f78afabfe94b7ff784c8b550ef838d4e00404fb93f6601191480cf23c1041",
+    "c0e012b9d2e0c1d77772502f0e09ee9983a9f39200c0e4c11bc9a820ea43f98f"
+  ],
+  "n_train_prompts_dropped_by_filter": 256,
+  "uninformative_std_tolerance": 1e-06,
+  "reward_max_length": 1280,
+  "tokens_generated": 17112,
+  "wall_clock_s": 254.2,
+  "peak_vram_gb": 6.58,
+  "adapter": "C:\\Users\\javai\\atml_pa2_28100422\\outputs\\task3_grpo\\standard",
+  "config": {
+    "seed": 6304,
+    "policy_epochs": 1,
+    "learning_rate": 5e-06,
+    "mask_truncated_completions": true,
+    "max_prompt_length": 256,
+    "max_grad_norm": 1.0,
+    "generation": {
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "do_sample": true
+    }
+  }
+}

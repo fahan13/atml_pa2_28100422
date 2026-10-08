@@ -1,0 +1,50 @@
+{
+  "rows": [
+    {
+      "fork": "fork_grpo",
+      "loss_type": "grpo",
+      "updates": 8,
+      "tokens_generated": 6760,
+      "heldout_reward": 1.746105772076231,
+      "heldout_kl_token": 0.00010733030772672399,
+      "heldout_len_mean": 312.8666666666667,
+      "heldout_len_std": 263.1813416370138,
+      "heldout_truncated": 0.10303030303030303,
+      "heldout_entropy": 0.7782706247065942,
+      "train_len_mean": 211.25,
+      "train_reward_mean": 1.0945281982421875,
+      "grad_norm_mean": 0.5079965623619955,
+      "median_len_split": 44.0,
+      "short_token_weight_mean": 0.03379908928337967,
+      "long_token_weight_mean": 0.007090516420209914,
+      "short_share_of_gradient_mass": 0.2864739707011748,
+      "long_share_of_gradient_mass": 0.7135260292988251,
+      "corr_length_reward": 0.49593723513004573,
+      "corr_length_advantage": 0.5892163083891703,
+      "signed_weight_long_minus_short": 9.480117566883564
+    },
+    {
+      "fork": "fork_dr_grpo",
+      "loss_type": "dr_grpo",
+      "updates": 8,
+      "tokens_generated": 6724,
+      "heldout_reward": 1.8443706396854285,
+      "heldout_kl_token": 0.00012706198242633124,
+      "heldout_len_mean": 304.23030303030305,
+      "heldout_len_std": 254.28618152001377,
+      "heldout_truncated": 0.07272727272727272,
+      "heldout_entropy": 0.7805611482630347,
+      "train_len_mean": 210.125,
+      "train_reward_mean": 1.1238250732421875,
+      "grad_norm_mean": 0.044584330777070136,
+      "median_len_split": 44.0,
+      "short_token_weight_mean": 0.0007196923789496606,
+      "long_token_weight_mean": 0.0018256708042992448,
+      "short_share_of_gradient_mass": 0.07253190769145453,
+      "long_share_of_gradient_mass": 0.9274680923085454,
+      "corr_length_reward": 0.48582995035395615,
+      "corr_length_advantage": 0.5117241924421103,
+      "signed_weight_long_minus_short": 3.2236051634245086
+    }
+  ]
+}

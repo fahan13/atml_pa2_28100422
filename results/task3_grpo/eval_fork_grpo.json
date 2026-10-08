@@ -1,0 +1,21 @@
+{
+  "name": "fork_grpo",
+  "adapter": "outputs/task3_grpo/fork_grpo",
+  "n_prompts": 165,
+  "n_eval_prompts_dropped_by_filter": 35,
+  "max_new_tokens": 768,
+  "reward_mean": 1.746105772076231,
+  "reward_std": 1.2318191881766258,
+  "kl_token_mean": 0.00010733030772672399,
+  "kl_sequence_mean": 0.03358007561076771,
+  "entropy_token_mean": 0.7782706247065942,
+  "length": {
+    "mean": 312.8666666666667,
+    "std": 263.1813416370138,
+    "median": 237.0,
+    "iqr": 472.0,
+    "n": 165
+  },
+  "truncated_rate": 0.10303030303030303,
+  "wall_clock_s": 674.1
+}

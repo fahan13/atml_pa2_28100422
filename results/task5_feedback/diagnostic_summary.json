@@ -1,0 +1,145 @@
+{
+  "verifier_pass_rate_by_variant": {
+    "clean_correct": 1.0,
+    "corrupt_reasoning_correct_final": 1.0,
+    "gold_distractor_wrong_final": 0.0,
+    "good_reasoning_wrong_final": 0.0,
+    "persuasive_filler_correct": 1.0
+  },
+  "by_perturbation": {
+    "corrupt_reasoning_correct_final": {
+      "kind": "reasoning",
+      "verifier": {
+        "n": 20,
+        "better_rate": 0.0,
+        "tie_rate": 1.0,
+        "wrong_rate": 0.0
+      },
+      "judge": {
+        "n": 20,
+        "better_rate": 0.0,
+        "tie_rate": 1.0,
+        "wrong_rate": 0.0
+      },
+      "judge_reversed_order": {
+        "n": 20,
+        "better_rate": 0.0,
+        "tie_rate": 1.0,
+        "wrong_rate": 0.0
+      },
+      "judge_order_consistency": 1.0
+    },
+    "good_reasoning_wrong_final": {
+      "kind": "outcome",
+      "verifier": {
+        "n": 20,
+        "better_rate": 1.0,
+        "tie_rate": 0.0,
+        "wrong_rate": 0.0
+      },
+      "judge": {
+        "n": 20,
+        "better_rate": 0.0,
+        "tie_rate": 1.0,
+        "wrong_rate": 0.0
+      },
+      "judge_reversed_order": {
+        "n": 20,
+        "better_rate": 0.15,
+        "tie_rate": 0.85,
+        "wrong_rate": 0.0
+      },
+      "judge_order_consistency": 0.85
+    },
+    "gold_distractor_wrong_final": {
+      "kind": "outcome",
+      "verifier": {
+        "n": 20,
+        "better_rate": 1.0,
+        "tie_rate": 0.0,
+        "wrong_rate": 0.0
+      },
+      "judge": {
+        "n": 20,
+        "better_rate": 0.25,
+        "tie_rate": 0.7,
+        "wrong_rate": 0.05
+      },
+      "judge_reversed_order": {
+        "n": 20,
+        "better_rate": 0.15,
+        "tie_rate": 0.8,
+        "wrong_rate": 0.05
+      },
+      "judge_order_consistency": 0.7
+    },
+    "persuasive_filler_correct": {
+      "kind": "filler",
+      "verifier": {
+        "n": 20,
+        "better_rate": 0.0,
+        "tie_rate": 1.0,
+        "wrong_rate": 0.0
+      },
+      "judge": {
+        "n": 20,
+        "better_rate": 0.0,
+        "tie_rate": 0.75,
+        "wrong_rate": 0.25
+      },
+      "judge_reversed_order": {
+        "n": 20,
+        "better_rate": 0.0,
+        "tie_rate": 0.75,
+        "wrong_rate": 0.25
+      },
+      "judge_order_consistency": 1.0
+    }
+  },
+  "sensitivity": {
+    "S_reasoning_verifier": {
+      "n": 20,
+      "better_rate": 0.0,
+      "tie_rate": 1.0,
+      "wrong_rate": 0.0
+    },
+    "S_reasoning_judge": {
+      "n": 20,
+      "better_rate": 0.0,
+      "tie_rate": 1.0,
+      "wrong_rate": 0.0
+    },
+    "S_outcome_verifier": {
+      "n": 40,
+      "better_rate": 1.0,
+      "tie_rate": 0.0,
+      "wrong_rate": 0.0
+    },
+    "S_outcome_judge": {
+      "n": 40,
+      "better_rate": 0.125,
+      "tie_rate": 0.85,
+      "wrong_rate": 0.025
+    },
+    "S_filler_verifier": {
+      "n": 20,
+      "better_rate": 0.0,
+      "tie_rate": 1.0,
+      "wrong_rate": 0.0
+    },
+    "S_filler_judge": {
+      "n": 20,
+      "better_rate": 0.0,
+      "tie_rate": 0.75,
+      "wrong_rate": 0.25
+    }
+  },
+  "S_reason": {
+    "verifier": 0.0,
+    "judge": 0.0
+  },
+  "S_outcome": {
+    "verifier": 1.0,
+    "judge": 0.125
+  }
+}

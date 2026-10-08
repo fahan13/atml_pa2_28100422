@@ -1,0 +1,80 @@
+{
+  "dataset": "transfer",
+  "n": 100,
+  "decoding": {
+    "greedy": true,
+    "max_new_tokens": 512
+  },
+  "device": "Tesla T4",
+  "policies": {
+    "sft": {
+      "n": 100,
+      "exact_accuracy": 0.42,
+      "format_compliance": 0.55,
+      "truncated_rate": 0.0,
+      "length_mean": 163.35,
+      "length_std": 70.86428931415314,
+      "length_iqr": 79.25,
+      "failure_types": {
+        "no_designated_final": 45,
+        "correct": 42,
+        "wrong_final": 13
+      }
+    },
+    "rlvr": {
+      "n": 100,
+      "exact_accuracy": 0.46,
+      "format_compliance": 0.58,
+      "truncated_rate": 0.0,
+      "length_mean": 164.41,
+      "length_std": 72.14860982721704,
+      "length_iqr": 78.25,
+      "failure_types": {
+        "no_designated_final": 42,
+        "correct": 46,
+        "wrong_final": 12
+      }
+    },
+    "rlaif": {
+      "n": 100,
+      "exact_accuracy": 0.48,
+      "format_compliance": 0.62,
+      "truncated_rate": 0.0,
+      "length_mean": 164.32,
+      "length_std": 73.00354511939814,
+      "length_iqr": 78.25,
+      "failure_types": {
+        "no_designated_final": 38,
+        "correct": 48,
+        "wrong_final": 14
+      }
+    }
+  },
+  "pairwise_vs_sft": {
+    "rlvr": {
+      "win_rate_vs_sft": 0.53,
+      "wins": 14,
+      "ties": 78,
+      "losses": 8,
+      "verifier_strict_pairs": 6,
+      "verifier_judge_agreement_on_strict_pairs": 0.5,
+      "judge_opposes_verifier": 0,
+      "judge_ties_when_verifier_strict": 3,
+      "judge_strict_when_verifier_ties": 19,
+      "verifier_ties": 94
+    },
+    "rlaif": {
+      "win_rate_vs_sft": 0.535,
+      "wins": 14,
+      "ties": 79,
+      "losses": 7,
+      "verifier_strict_pairs": 6,
+      "verifier_judge_agreement_on_strict_pairs": 0.3333333333333333,
+      "judge_opposes_verifier": 0,
+      "judge_ties_when_verifier_strict": 4,
+      "judge_strict_when_verifier_ties": 19,
+      "verifier_ties": 94
+    }
+  },
+  "wall_clock_s": 434.0
+}

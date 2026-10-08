@@ -1,0 +1,208 @@
+{
+  "policies": [
+    {
+      "policy": "sft",
+      "gsm_acc": 0.2733333333333333,
+      "svamp_acc": 0.42,
+      "acc_drop": -0.14666666666666667,
+      "gsm_format": 0.35333333333333333,
+      "svamp_format": 0.55,
+      "gsm_lenient_acc": 0.65,
+      "svamp_lenient_acc": 0.78,
+      "gsm_len": 275.0966666666667,
+      "svamp_len": 163.35,
+      "gsm_truncated": 0.02,
+      "svamp_truncated": 0.0
+    },
+    {
+      "policy": "rlvr",
+      "gsm_acc": 0.29333333333333333,
+      "svamp_acc": 0.46,
+      "acc_drop": -0.16666666666666669,
+      "gsm_format": 0.36333333333333334,
+      "svamp_format": 0.58,
+      "gsm_lenient_acc": 0.65,
+      "svamp_lenient_acc": 0.79,
+      "gsm_len": 275.75,
+      "svamp_len": 164.41,
+      "gsm_truncated": 0.023333333333333334,
+      "svamp_truncated": 0.0,
+      "gsm_winrate_vs_sft": 0.5033333333333333,
+      "gsm_judge_ties": 290,
+      "svamp_winrate_vs_sft": 0.53,
+      "svamp_judge_ties": 78,
+      "winrate_drop": -0.026666666666666727,
+      "gsm_verifier_judge_agreement": 0.0,
+      "gsm_identical_to_sft": 242,
+      "gsm_winrate_non_identical": 0.5086206896551724,
+      "svamp_identical_to_sft": 85,
+      "svamp_winrate_non_identical": 0.6
+    },
+    {
+      "policy": "rlaif",
+      "gsm_acc": 0.29,
+      "svamp_acc": 0.48,
+      "acc_drop": -0.19,
+      "gsm_format": 0.36333333333333334,
+      "svamp_format": 0.62,
+      "gsm_lenient_acc": 0.66,
+      "svamp_lenient_acc": 0.78,
+      "gsm_len": 276.64,
+      "svamp_len": 164.32,
+      "gsm_truncated": 0.023333333333333334,
+      "svamp_truncated": 0.0,
+      "gsm_winrate_vs_sft": 0.5,
+      "gsm_judge_ties": 292,
+      "svamp_winrate_vs_sft": 0.535,
+      "svamp_judge_ties": 79,
+      "winrate_drop": -0.03500000000000003,
+      "gsm_verifier_judge_agreement": 0.0,
+      "gsm_identical_to_sft": 256,
+      "gsm_winrate_non_identical": 0.5,
+      "svamp_identical_to_sft": 87,
+      "svamp_winrate_non_identical": 0.5769230769230769
+    }
+  ],
+  "supplementary": {
+    "gsm": {
+      "sft": {
+        "lenient_accuracy": 0.65
+      },
+      "rlvr": {
+        "lenient_accuracy": 0.65,
+        "identical_to_sft": 242,
+        "non_identical_pairs": 58,
+        "winrate_non_identical": 0.5086206896551724,
+        "judge_ties_non_identical": 53
+      },
+      "rlaif": {
+        "lenient_accuracy": 0.66,
+        "identical_to_sft": 256,
+        "non_identical_pairs": 44,
+        "winrate_non_identical": 0.5,
+        "judge_ties_non_identical": 42
+      }
+    },
+    "transfer": {
+      "sft": {
+        "lenient_accuracy": 0.78
+      },
+      "rlvr": {
+        "lenient_accuracy": 0.79,
+        "identical_to_sft": 85,
+        "non_identical_pairs": 15,
+        "winrate_non_identical": 0.6,
+        "judge_ties_non_identical": 10
+      },
+      "rlaif": {
+        "lenient_accuracy": 0.78,
+        "identical_to_sft": 87,
+        "non_identical_pairs": 13,
+        "winrate_non_identical": 0.5769230769230769,
+        "judge_ties_non_identical": 11
+      }
+    }
+  },
+  "S_reason": {
+    "verifier": 0.0,
+    "judge": 0.0
+  },
+  "S_outcome": {
+    "verifier": 1.0,
+    "judge": 0.125
+  },
+  "by_perturbation": {
+    "corrupt_reasoning_correct_final": {
+      "kind": "reasoning",
+      "verifier": {
+        "n": 20,
+        "better_rate": 0.0,
+        "tie_rate": 1.0,
+        "wrong_rate": 0.0
+      },
+      "judge": {
+        "n": 20,
+        "better_rate": 0.0,
+        "tie_rate": 1.0,
+        "wrong_rate": 0.0
+      },
+      "judge_reversed_order": {
+        "n": 20,
+        "better_rate": 0.0,
+        "tie_rate": 1.0,
+        "wrong_rate": 0.0
+      },
+      "judge_order_consistency": 1.0
+    },
+    "good_reasoning_wrong_final": {
+      "kind": "outcome",
+      "verifier": {
+        "n": 20,
+        "better_rate": 1.0,
+        "tie_rate": 0.0,
+        "wrong_rate": 0.0
+      },
+      "judge": {
+        "n": 20,
+        "better_rate": 0.0,
+        "tie_rate": 1.0,
+        "wrong_rate": 0.0
+      },
+      "judge_reversed_order": {
+        "n": 20,
+        "better_rate": 0.15,
+        "tie_rate": 0.85,
+        "wrong_rate": 0.0
+      },
+      "judge_order_consistency": 0.85
+    },
+    "gold_distractor_wrong_final": {
+      "kind": "outcome",
+      "verifier": {
+        "n": 20,
+        "better_rate": 1.0,
+        "tie_rate": 0.0,
+        "wrong_rate": 0.0
+      },
+      "judge": {
+        "n": 20,
+        "better_rate": 0.25,
+        "tie_rate": 0.7,
+        "wrong_rate": 0.05
+      },
+      "judge_reversed_order": {
+        "n": 20,
+        "better_rate": 0.15,
+        "tie_rate": 0.8,
+        "wrong_rate": 0.05
+      },
+      "judge_order_consistency": 0.7
+    },
+    "persuasive_filler_correct": {
+      "kind": "filler",
+      "verifier": {
+        "n": 20,
+        "better_rate": 0.0,
+        "tie_rate": 1.0,
+        "wrong_rate": 0.0
+      },
+      "judge": {
+        "n": 20,
+        "better_rate": 0.0,
+        "tie_rate": 0.75,
+        "wrong_rate": 0.25
+      },
+      "judge_reversed_order": {
+        "n": 20,
+        "better_rate": 0.0,
+        "tie_rate": 0.75,
+        "wrong_rate": 0.25
+      },
+      "judge_order_consistency": 1.0
+    }
+  },
+  "devices": [
+    "Tesla T4",
+    "Tesla T4"
+  ]
+}

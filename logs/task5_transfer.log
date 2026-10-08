@@ -1,0 +1,32 @@
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Rows: 100
+Policies: ['sft', 'rlvr', 'rlaif']
+[sft] 16/100
+[sft] 32/100
+[sft] 48/100
+[sft] 64/100
+[sft] 80/100
+[sft] 96/100
+[sft] 100/100
+[rlvr] 16/100
+[rlvr] 32/100
+[rlvr] 48/100
+[rlvr] 64/100
+[rlvr] 80/100
+[rlvr] 96/100
+[rlvr] 100/100
+[rlaif] 16/100
+[rlaif] 32/100
+[rlaif] 48/100
+[rlaif] 64/100
+[rlaif] 80/100
+[rlaif] 96/100
+[rlaif] 100/100
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files:  50%|█████     | 1/2 [00:23<00:23, 23.02s/it]Fetching 2 files: 100%|██████████| 2/2 [00:23<00:00, 11.51s/it]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.49s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.02s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:06<00:00,  3.24s/it]
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+rlvr {'win_rate_vs_sft': 0.53, 'wins': 14, 'ties': 78, 'losses': 8, 'verifier_strict_pairs': 6, 'verifier_judge_agreement_on_strict_pairs': 0.5, 'judge_opposes_verifier': 0, 'judge_ties_when_verifier_strict': 3, 'judge_strict_when_verifier_ties': 19, 'verifier_ties': 94}
+rlaif {'win_rate_vs_sft': 0.535, 'wins': 14, 'ties': 79, 'losses': 7, 'verifier_strict_pairs': 6, 'verifier_judge_agreement_on_strict_pairs': 0.3333333333333333, 'judge_opposes_verifier': 0, 'judge_ties_when_verifier_strict': 4, 'judge_strict_when_verifier_ties': 19, 'verifier_ties': 94}
+sft {'exact_accuracy': 0.42, 'format_compliance': 0.55, 'length_mean': 163.35, 'truncated_rate': 0.0}
+rlvr {'exact_accuracy': 0.46, 'format_compliance': 0.58, 'length_mean': 164.41, 'truncated_rate': 0.0}
+rlaif {'exact_accuracy': 0.48, 'format_compliance': 0.62, 'length_mean': 164.32, 'truncated_rate': 0.0}

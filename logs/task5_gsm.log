@@ -1,0 +1,67 @@
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+Rows: 300
+Policies: ['sft', 'rlvr', 'rlaif']
+[sft] 16/300
+[sft] 32/300
+[sft] 48/300
+[sft] 64/300
+[sft] 80/300
+[sft] 96/300
+[sft] 112/300
+[sft] 128/300
+[sft] 144/300
+[sft] 160/300
+[sft] 176/300
+[sft] 192/300
+[sft] 208/300
+[sft] 224/300
+[sft] 240/300
+[sft] 256/300
+[sft] 272/300
+[sft] 288/300
+[sft] 300/300
+[rlvr] 16/300
+[rlvr] 32/300
+[rlvr] 48/300
+[rlvr] 64/300
+[rlvr] 80/300
+[rlvr] 96/300
+[rlvr] 112/300
+[rlvr] 128/300
+[rlvr] 144/300
+[rlvr] 160/300
+[rlvr] 176/300
+[rlvr] 192/300
+[rlvr] 208/300
+[rlvr] 224/300
+[rlvr] 240/300
+[rlvr] 256/300
+[rlvr] 272/300
+[rlvr] 288/300
+[rlvr] 300/300
+[rlaif] 16/300
+[rlaif] 32/300
+[rlaif] 48/300
+[rlaif] 64/300
+[rlaif] 80/300
+[rlaif] 96/300
+[rlaif] 112/300
+[rlaif] 128/300
+[rlaif] 144/300
+[rlaif] 160/300
+[rlaif] 176/300
+[rlaif] 192/300
+[rlaif] 208/300
+[rlaif] 224/300
+[rlaif] 240/300
+[rlaif] 256/300
+[rlaif] 272/300
+[rlaif] 288/300
+[rlaif] 300/300
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:02<00:02,  2.67s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:04<00:00,  2.08s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:04<00:00,  2.17s/it]
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+rlvr {'win_rate_vs_sft': 0.5033333333333333, 'wins': 6, 'ties': 290, 'losses': 4, 'verifier_strict_pairs': 12, 'verifier_judge_agreement_on_strict_pairs': 0.0, 'judge_opposes_verifier': 1, 'judge_ties_when_verifier_strict': 11, 'judge_strict_when_verifier_ties': 9, 'verifier_ties': 288}
+rlaif {'win_rate_vs_sft': 0.5, 'wins': 4, 'ties': 292, 'losses': 4, 'verifier_strict_pairs': 5, 'verifier_judge_agreement_on_strict_pairs': 0.0, 'judge_opposes_verifier': 1, 'judge_ties_when_verifier_strict': 4, 'judge_strict_when_verifier_ties': 7, 'verifier_ties': 295}
+sft {'exact_accuracy': 0.2733333333333333, 'format_compliance': 0.35333333333333333, 'length_mean': 275.0966666666667, 'truncated_rate': 0.02}
+rlvr {'exact_accuracy': 0.29333333333333333, 'format_compliance': 0.36333333333333334, 'length_mean': 275.75, 'truncated_rate': 0.023333333333333334}
+rlaif {'exact_accuracy': 0.29, 'format_compliance': 0.36333333333333334, 'length_mean': 276.64, 'truncated_rate': 0.023333333333333334}

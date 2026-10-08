@@ -1,0 +1,83 @@
+{
+  "dataset": "gsm",
+  "n": 300,
+  "decoding": {
+    "greedy": true,
+    "max_new_tokens": 512
+  },
+  "device": "Tesla T4",
+  "policies": {
+    "sft": {
+      "n": 300,
+      "exact_accuracy": 0.2733333333333333,
+      "format_compliance": 0.35333333333333333,
+      "truncated_rate": 0.02,
+      "length_mean": 275.0966666666667,
+      "length_std": 86.37677536364866,
+      "length_iqr": 117.0,
+      "failure_types": {
+        "no_designated_final": 188,
+        "correct": 82,
+        "wrong_final": 24,
+        "truncated_no_final": 6
+      }
+    },
+    "rlvr": {
+      "n": 300,
+      "exact_accuracy": 0.29333333333333333,
+      "format_compliance": 0.36333333333333334,
+      "truncated_rate": 0.023333333333333334,
+      "length_mean": 275.75,
+      "length_std": 87.86399053840734,
+      "length_iqr": 118.0,
+      "failure_types": {
+        "no_designated_final": 184,
+        "correct": 88,
+        "wrong_final": 21,
+        "truncated_no_final": 7
+      }
+    },
+    "rlaif": {
+      "n": 300,
+      "exact_accuracy": 0.29,
+      "format_compliance": 0.36333333333333334,
+      "truncated_rate": 0.023333333333333334,
+      "length_mean": 276.64,
+      "length_std": 87.08668325295206,
+      "length_iqr": 118.0,
+      "failure_types": {
+        "no_designated_final": 184,
+        "correct": 87,
+        "wrong_final": 22,
+        "truncated_no_final": 7
+      }
+    }
+  },
+  "pairwise_vs_sft": {
+    "rlvr": {
+      "win_rate_vs_sft": 0.5033333333333333,
+      "wins": 6,
+      "ties": 290,
+      "losses": 4,
+      "verifier_strict_pairs": 12,
+      "verifier_judge_agreement_on_strict_pairs": 0.0,
+      "judge_opposes_verifier": 1,
+      "judge_ties_when_verifier_strict": 11,
+      "judge_strict_when_verifier_ties": 9,
+      "verifier_ties": 288
+    },
+    "rlaif": {
+      "win_rate_vs_sft": 0.5,
+      "wins": 4,
+      "ties": 292,
+      "losses": 4,
+      "verifier_strict_pairs": 5,
+      "verifier_judge_agreement_on_strict_pairs": 0.0,
+      "judge_opposes_verifier": 1,
+      "judge_ties_when_verifier_strict": 4,
+      "judge_strict_when_verifier_ties": 7,
+      "verifier_ties": 295
+    }
+  },
+  "wall_clock_s": 1543.1
+}

@@ -1,0 +1,30 @@
+Diagnostic problems: 20
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:04<00:04,  4.89s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:08<00:00,  3.87s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:08<00:00,  4.03s/it]
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+problem 803 done
+problem 750 done
+problem 867 done
+problem 506 done
+problem 505 done
+problem 289 done
+problem 736 done
+problem 558 done
+problem 677 done
+problem 23 done
+problem 1122 done
+problem 569 done
+problem 620 done
+problem 299 done
+problem 1200 done
+problem 1245 done
+problem 103 done
+problem 459 done
+problem 113 done
+problem 681 done
+S_reason: {'verifier': 0.0, 'judge': 0.0}
+S_outcome: {'verifier': 1.0, 'judge': 0.125}
+corrupt_reasoning_correct_final verifier {'n': 20, 'better_rate': 0.0, 'tie_rate': 1.0, 'wrong_rate': 0.0} judge {'n': 20, 'better_rate': 0.0, 'tie_rate': 1.0, 'wrong_rate': 0.0} consistency 1.0
+good_reasoning_wrong_final verifier {'n': 20, 'better_rate': 1.0, 'tie_rate': 0.0, 'wrong_rate': 0.0} judge {'n': 20, 'better_rate': 0.0, 'tie_rate': 1.0, 'wrong_rate': 0.0} consistency 0.85
+gold_distractor_wrong_final verifier {'n': 20, 'better_rate': 1.0, 'tie_rate': 0.0, 'wrong_rate': 0.0} judge {'n': 20, 'better_rate': 0.25, 'tie_rate': 0.7, 'wrong_rate': 0.05} consistency 0.7
+persuasive_filler_correct verifier {'n': 20, 'better_rate': 0.0, 'tie_rate': 1.0, 'wrong_rate': 0.0} judge {'n': 20, 'better_rate': 0.0, 'tie_rate': 0.75, 'wrong_rate': 0.25} consistency 1.0

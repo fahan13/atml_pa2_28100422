@@ -35,7 +35,8 @@ task3_grpo/             grpo.py (objectives, fixed), continue_train.py, evaluate
 task4_safety/           generate_responses.py, judge_responses.py (released judge, unchanged),
                         make_audit_sheet.py, evaluate_safety.py
 task5_feedback/         rlvr.py, rlaif.py (released verifier/judge, unchanged), evaluate_math.py,
-                        score_perturbations.py, compare_feedback.py, probe_judge_raw.py
+                        score_perturbations.py, compare_feedback.py, probe_judge_raw.py,
+                        analyze_position_bias.py
 tests/                  test_objectives.py (the three defects), test_logprobs.py
 scripts/                released asset scripts + run_task{1..4}.ps1, run_task5.sh, watch.py
 report/                 make_figures.py and figures/ (every report figure)
@@ -160,6 +161,7 @@ python report/make_figures.py                                               # al
 | 2. Controlled diagnostics | `task5_feedback.score_perturbations` | `diagnostic_summary.json`, `diagnostic_pairs.jsonl` |
 | 3. SVAMP transfer | `task5_feedback.evaluate_math --dataset transfer` | `math_transfer_summary.json` |
 | Comparison table | `task5_feedback.compare_feedback` | `feedback_comparison.{json,csv}` |
+| Judge position consistency (CPU) | `task5_feedback.analyze_position_bias` | `position_consistency.json` |
 
 ---
 
@@ -203,6 +205,11 @@ All are stated in the report; they are repeated here so the code can be read wit
   scaler, so all forks are treated identically.
 - Training order is an explicit seeded permutation; the exact prompt IDs used by every run are
   saved in its `*_train_summary.json`.
+- *Limitation (all tasks, all conditions alike):* responses are sampled with the config's
+  temperature 0.7 / top-p 0.9, while log-probabilities, the released sampled-KL estimator and the
+  sampled-entropy estimator are computed at temperature 1. The estimates therefore refer to the
+  tempered sampling distribution and can be slightly negative when the true KL is near zero; they
+  are valid for comparisons within a task, which all use the identical protocol.
 
 **Task 1**
 
@@ -212,8 +219,8 @@ All are stated in the report; they are repeated here so the code can be read wit
   83/1500 length-balanced-train, 15/300 eval and 13/246 stratified pairs are dropped (IDs saved).
   Responses longer than the remaining budget lose their tail tokens, which compresses the length
   difference DPO sees on the longest pairs.
-- The standard one-epoch run (1430 pairs) and the β forks (first 600 pairs of the same order) use
-  different budgets and are labelled separately everywhere.
+- The standard one-epoch run (all 1430 filtered pairs) and the β forks (the first 600 filtered pairs in
+  file order, identical for every β) use different budgets and are labelled separately everywhere.
 - 47.5% of SFT generations hit the released 256-token cap, so generated-length statistics are
   censored; truncation rate is reported next to length.
 
@@ -274,8 +281,11 @@ All are stated in the report; they are repeated here so the code can be read wit
   else the last number) separates format failures from arithmetic failures; win rates are also
   reported on non-identical pairs only, because 242/300 RLVR and 256/300 RLAIF greedy GSM8K answers
   are word-for-word identical to SFT's and trivially tie.
-- Each diagnostic perturbation is compared against the clean response of the same problem; the
-  judge is also queried with the order reversed to measure position consistency.
+- Each diagnostic perturbation is compared against the clean response of the same problem, and the
+  judge is queried a second time with the arguments reversed. Because the released judge also swaps
+  A/B internally by hash, about half of these second calls show the same physical order;
+  `analyze_position_bias.py` recomputes the released swap bit and reports consistency only on pairs
+  whose presented order actually flipped (`position_consistency.json`).
 - `probe_judge_raw.py` confirms the judge's TIEs are genuine outputs, not parse failures
   (40/40 raw outputs are literally "TIE").
 

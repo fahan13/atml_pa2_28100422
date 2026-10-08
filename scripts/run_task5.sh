@@ -17,6 +17,7 @@ wait
 CUDA_VISIBLE_DEVICES=0 python -m task5_feedback.score_perturbations > logs/task5_diag.log 2>&1
 # Supplementary: raw judge outputs on the 40 detectable-perturbation pairs (are TIEs real?).
 CUDA_VISIBLE_DEVICES=0 python -m task5_feedback.probe_judge_raw
+python -m task5_feedback.analyze_position_bias   # CPU only
 
 # Final comparison table (CPU only; was run on the laptop after copying the results back).
 python -m task5_feedback.compare_feedback

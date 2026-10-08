@@ -1,0 +1,122 @@
+{
+  "n_cached": 32,
+  "n_used": 32,
+  "retokenization_mismatches": [],
+  "n_tokens": 8814,
+  "kl_beta_for_shaping": 0.1,
+  "frac_tokens_positive_advantage": 0.4994327127933502,
+  "probe_steps": 2,
+  "per_epsilon": {
+    "0.05": [
+      {
+        "step": 0,
+        "clipped_surrogate_loss": 0.01132929790765047,
+        "unclipped_surrogate_loss": -0.0003427233314141631,
+        "clip_fraction": 0.1538461595773697,
+        "affected_fraction": 0.07669616490602493,
+        "ratio_mean": 1.0119918584823608,
+        "ratio_min": 2.262940057562446e-09,
+        "ratio_max": 32.55570983886719,
+        "abs_log_ratio_mean": 0.06627164036035538
+      },
+      {
+        "step": 1,
+        "grad_norm": 0.04539834335446358,
+        "clipped_surrogate_loss": 0.011307816952466965,
+        "unclipped_surrogate_loss": -0.000398847070755437,
+        "clip_fraction": 0.15339232981204987,
+        "affected_fraction": 0.07635580003261566,
+        "ratio_mean": 1.0120033025741577,
+        "ratio_min": 2.262940057562446e-09,
+        "ratio_max": 32.55570983886719,
+        "abs_log_ratio_mean": 0.06618174910545349
+      },
+      {
+        "step": 2,
+        "grad_norm": 0.04569957032799721,
+        "clipped_surrogate_loss": 0.011266609653830528,
+        "unclipped_surrogate_loss": -0.0004117650678381324,
+        "clip_fraction": 0.15305195748806,
+        "affected_fraction": 0.07714998722076416,
+        "ratio_mean": 1.0120108127593994,
+        "ratio_min": 2.298576218251469e-09,
+        "ratio_max": 32.56167221069336,
+        "abs_log_ratio_mean": 0.06616169214248657
+      }
+    ],
+    "0.20": [
+      {
+        "step": 0,
+        "clipped_surrogate_loss": 0.007835645228624344,
+        "unclipped_surrogate_loss": -0.0003427233314141631,
+        "clip_fraction": 0.04129793494939804,
+        "affected_fraction": 0.019854776561260223,
+        "ratio_mean": 1.0119918584823608,
+        "ratio_min": 2.262940057562446e-09,
+        "ratio_max": 32.55570983886719,
+        "abs_log_ratio_mean": 0.06627164036035538
+      },
+      {
+        "step": 1,
+        "grad_norm": 0.049815110862255096,
+        "clipped_surrogate_loss": 0.007778898347169161,
+        "unclipped_surrogate_loss": -0.00041227988549508154,
+        "clip_fraction": 0.041411392390728,
+        "affected_fraction": 0.01996823213994503,
+        "ratio_mean": 1.01203191280365,
+        "ratio_min": 2.262940057562446e-09,
+        "ratio_max": 32.56167221069336,
+        "abs_log_ratio_mean": 0.06614933907985687
+      },
+      {
+        "step": 2,
+        "grad_norm": 0.049821823835372925,
+        "clipped_surrogate_loss": 0.007836690172553062,
+        "unclipped_surrogate_loss": -0.0003364799777045846,
+        "clip_fraction": 0.041184477508068085,
+        "affected_fraction": 0.019741320982575417,
+        "ratio_mean": 1.0119577646255493,
+        "ratio_min": 2.262940057562446e-09,
+        "ratio_max": 32.56167221069336,
+        "abs_log_ratio_mean": 0.06624307483434677
+      }
+    ],
+    "0.50": [
+      {
+        "step": 0,
+        "clipped_surrogate_loss": 0.005314234644174576,
+        "unclipped_surrogate_loss": -0.0003427233314141631,
+        "clip_fraction": 0.02098933607339859,
+        "affected_fraction": 0.010097571648657322,
+        "ratio_mean": 1.0119918584823608,
+        "ratio_min": 2.262940057562446e-09,
+        "ratio_max": 32.55570983886719,
+        "abs_log_ratio_mean": 0.06627164036035538
+      },
+      {
+        "step": 1,
+        "grad_norm": 0.05140646547079086,
+        "clipped_surrogate_loss": 0.0052946461364626884,
+        "unclipped_surrogate_loss": -0.0003634732565842569,
+        "clip_fraction": 0.020762423053383827,
+        "affected_fraction": 0.009870660491287708,
+        "ratio_mean": 1.011916995048523,
+        "ratio_min": 2.262940057562446e-09,
+        "ratio_max": 32.56167221069336,
+        "abs_log_ratio_mean": 0.06625748425722122
+      },
+      {
+        "step": 2,
+        "grad_norm": 0.05146075040102005,
+        "clipped_surrogate_loss": 0.005270498804748058,
+        "unclipped_surrogate_loss": -0.0003936166758649051,
+        "clip_fraction": 0.020875878632068634,
+        "affected_fraction": 0.010097571648657322,
+        "ratio_mean": 1.0119755268096924,
+        "ratio_min": 2.262940057562446e-09,
+        "ratio_max": 32.56167221069336,
+        "abs_log_ratio_mean": 0.06628456711769104
+      }
+    ]
+  }
+}

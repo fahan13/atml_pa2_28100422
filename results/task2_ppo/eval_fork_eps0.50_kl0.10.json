@@ -1,0 +1,21 @@
+{
+  "name": "fork_eps0.50_kl0.10",
+  "adapter": "outputs/task2_ppo/fork_eps0.50_kl0.10",
+  "n_prompts": 165,
+  "n_eval_prompts_dropped_by_filter": 35,
+  "max_new_tokens": 768,
+  "reward_mean": 1.8526409727154356,
+  "reward_std": 1.1269460621207585,
+  "kl_token_mean": -8.022063706772478e-06,
+  "kl_sequence_mean": -0.0024750254370949484,
+  "entropy_token_mean": 0.7793553665751318,
+  "length": {
+    "mean": 308.5272727272727,
+    "std": 257.07887160537973,
+    "median": 238.0,
+    "iqr": 462.0,
+    "n": 165
+  },
+  "truncated_rate": 0.07272727272727272,
+  "wall_clock_s": 580.4
+}

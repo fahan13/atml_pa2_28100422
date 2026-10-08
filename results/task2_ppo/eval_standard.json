@@ -1,0 +1,21 @@
+{
+  "name": "standard",
+  "adapter": "outputs/task2_ppo/standard",
+  "n_prompts": 165,
+  "n_eval_prompts_dropped_by_filter": 35,
+  "max_new_tokens": 768,
+  "reward_mean": 1.855209443063447,
+  "reward_std": 1.2177447754458905,
+  "kl_token_mean": -2.6181737454262596e-05,
+  "kl_sequence_mean": -0.007904663230433609,
+  "entropy_token_mean": 0.770626717477544,
+  "length": {
+    "mean": 301.91515151515154,
+    "std": 261.58260543736714,
+    "median": 247.0,
+    "iqr": 462.0,
+    "n": 165
+  },
+  "truncated_rate": 0.10303030303030303,
+  "wall_clock_s": 914.9
+}

@@ -1,0 +1,43 @@
+{
+  "run_name": "fork_eps0.20_kl0.10",
+  "updates": 8,
+  "clip_epsilon": 0.2,
+  "kl_beta": 0.1,
+  "prompt_ids": [
+    "3eb6af1128a4e2b13381f31abd858f936db550a1ecde082a992138abcd68cd9e",
+    "ce74f1002974025d1c3d13bad87ded45b13951ea48d218d01a156d3e588c147d",
+    "108b1eac65d8a6ea8f4cc0ac367e236e01a85c57ba634318bc6a2888edf0726b",
+    "41bb924302264b14d32a24245a89b4b55b3edad96b5320b8c0f860236e39d162",
+    "5c12ca72ae1cb0f4c454b651e4989b3418162478a095070a021d26e4a93e9be4",
+    "ecc4cfc6c5ecb67306305fc1c282ebf29aff67f173472d6e644ff7d2ee7b5904",
+    "09a3b1eff71f4eafce9ba4d9cd7c5f05ec64d46f73e06f9c99a2070c6b5dae64",
+    "8b12b2221a7ce4279de709740959a5ff726660dba4d5c73f83c098dbe555066e"
+  ],
+  "prompt_filter": "rendered prompt tokens <= max_prompt_length (256)",
+  "n_train_prompts_dropped_by_filter": 256,
+  "tokens_generated": 1752,
+  "wall_clock_s": 83.3,
+  "peak_vram_gb": 6.21,
+  "adapter": "C:\\Users\\javai\\atml_pa2_28100422\\outputs\\task2_ppo\\fork_eps0.20_kl0.10",
+  "config": {
+    "seed": 6304,
+    "ppo_epochs": 2,
+    "policy_learning_rate": 3e-06,
+    "value_lora_learning_rate": 0.0001,
+    "value_head_learning_rate": 0.0003,
+    "value_train_mode": "lora_head",
+    "gamma": 1.0,
+    "gae_lambda": 0.95,
+    "value_coef": 0.5,
+    "missing_eos_penalty": 1.0,
+    "max_prompt_length": 256,
+    "max_response_length": 512,
+    "reward_max_length": 1280,
+    "max_grad_norm": 1.0,
+    "generation": {
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "do_sample": true
+    }
+  }
+}

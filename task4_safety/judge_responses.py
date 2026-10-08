@@ -8,7 +8,7 @@ from pathlib import Path
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 
-from common.data import load_yaml, read_jsonl
+from common.data import load_yaml, read_jsonl, repo_path
 from common.models import resolve_dtype
 
 LABELS = {
@@ -106,6 +106,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", default="configs/feedback.yaml")
     ap.add_argument("--input", help="Optional generated JSONL file to inspect")
+    ap.add_argument("--policies", default="sft,dpo,ppo,grpo")
     args = ap.parse_args()
     cfg = load_yaml(args.config)
     tok, model = load_judge(cfg)
@@ -113,9 +114,24 @@ def main():
     if args.input:
         rows = read_jsonl(args.input)
         print("Input rows:", len(rows))
-    raise NotImplementedError(
-        "TODO(student): apply judge_one to your frozen-policy response files, cache the labels, and implement the required Task 4 aggregation."
-    )
+    outdir = Path(repo_path(cfg["results_dir"])) / "task4_safety"
+    for name in args.policies.split(","):
+        src = outdir / f"generated_{name}.jsonl"
+        dst = outdir / f"judged_{name}.jsonl"
+        done = {int(r["xstest_id"]) for r in read_jsonl(dst)} if dst.exists() else set()   # resume cache
+        rows = read_jsonl(src)
+        with dst.open("a", encoding="utf-8") as f:
+            for i, r in enumerate(rows):
+                if int(r["xstest_id"]) in done:
+                    continue
+                j = judge_one(tok, model, r["prompt"], r["response"], int(cfg["judge_max_new_tokens"]))
+                f.write(json.dumps({"xstest_id": int(r["xstest_id"]), "policy": name,
+                                    "judge_label": j["label"], "judge_confidence": j["confidence"],
+                                    "judge_rationale_tag": j["rationale_tag"]}, ensure_ascii=False) + "\n")
+                f.flush()
+                if (i + 1) % 50 == 0:
+                    print(f"[{name}] judged {i + 1}/{len(rows)}", flush=True)
+        print(f"[{name}] done -> {dst}", flush=True)
 
 
 if __name__ == "__main__":

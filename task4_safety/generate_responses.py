@@ -3,9 +3,12 @@ from __future__ import annotations
 import argparse
 import pandas as pd
 
-from common.data import load_yaml, repo_path
+from common.data import load_yaml, repo_path, write_jsonl
 from common.generation import batch_generate
-from common.models import load_policy, load_tokenizer
+from common.logging_utils import set_seed
+from common.models import clear_gpu, load_policy, load_tokenizer
+
+BATCH = 16   # same for every policy; greedy decoding
 
 
 def policy_specs(cfg):
@@ -29,6 +32,7 @@ def generate_for_policy(cfg, policy_name: str, batch_size: int = 4):
     tokenizer = load_tokenizer(cfg["base_model"])
     model = load_policy(cfg, adapter_path=adapter, trainable=False)
     df = load_xstest(cfg)
+    set_seed(int(cfg["seed"]))
     records = []
     for start in range(0, len(df), batch_size):
         chunk = df.iloc[start:start + batch_size]
@@ -43,7 +47,8 @@ def generate_for_policy(cfg, policy_name: str, batch_size: int = 4):
             top_p=1.0,
             do_sample=False,
         )
-        for (_, row), response, n_tok in zip(chunk.iterrows(), gen["responses"], gen["response_lengths"]):
+        for (_, row), response, n_tok, trunc in zip(chunk.iterrows(), gen["responses"], gen["response_lengths"],
+                                                    gen["truncated"]):
             records.append({
                 "xstest_id": int(row["xstest_id"]),
                 "policy": policy_name,
@@ -52,20 +57,31 @@ def generate_for_policy(cfg, policy_name: str, batch_size: int = 4):
                 "type": str(row["type"]),
                 "response": response,
                 "response_tokens": int(n_tok),
+                "truncated": bool(trunc),
             })
+        print(f"[{policy_name}] {len(records)}/{len(df)}", flush=True)
+    clear_gpu(model)
     return records
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", default="configs/feedback.yaml")
+    ap.add_argument("--policies", default="sft,dpo,ppo,grpo", help="comma list (split across GPUs if wanted)")
     args = ap.parse_args()
     cfg = load_yaml(args.config)
     print("Policies:", list(policy_specs(cfg)))
     print("XSTest rows:", len(load_xstest(cfg)))
-    raise NotImplementedError(
-        "TODO(student): call generate_for_policy for SFT/DPO/PPO/GRPO, save common deterministic responses, and preserve the fixed prompt order."
-    )
+    outdir = repo_path(cfg["results_dir"]) / "task4_safety"
+    outdir.mkdir(parents=True, exist_ok=True)
+    for name in args.policies.split(","):
+        path = outdir / f"generated_{name}.jsonl"
+        if path.exists():
+            print(f"skip {name}: {path} exists")
+            continue
+        recs = generate_for_policy(cfg, name, batch_size=BATCH)   # fixed CSV order preserved
+        write_jsonl(path, recs)
+        print("saved", path)
 
 
 if __name__ == "__main__":

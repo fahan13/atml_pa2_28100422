@@ -27,9 +27,9 @@ Every number in the report is read from a file under `results/` (see §9).
 common/                 released helpers (unchanged) + logprobs.py (see §6)
 configs/                released configs (byte-identical to the release)
 task1_dpo/              dpo.py (objective, fixed), train.py, evaluate.py, ablate_beta.py,
-                        analyze_length.py, _runner.py
+                        analyze_length.py, count_truncation.py, _runner.py
 task2_ppo/              ppo.py (objectives, fixed), continue_train.py, evaluate.py,
-                        analyze_clipping.py, ablate_kl.py, _runner.py
+                        analyze_clipping.py, clip_reanchored.py, ablate_kl.py, _runner.py
 task3_grpo/             grpo.py (objectives, fixed), continue_train.py, evaluate.py,
                         analyze_group_size.py, compare_normalization.py
 task4_safety/           generate_responses.py, judge_responses.py (released judge, unchanged),
@@ -129,6 +129,7 @@ python report/make_figures.py                                               # al
 | 1. Standard DPO (β=0.1, 1 epoch) | `task1_dpo.train --run-name standard`, then `task1_dpo.evaluate` | `standard_train_log.jsonl`, `eval_standard.json` |
 | 2. β ∈ {0.03, 0.10, 0.30}, 600 pairs each | `task1_dpo.ablate_beta` | `beta_sweep_summary.csv` |
 | 3. Length-balanced DPO + strata + word limits | `task1_dpo.analyze_length` | `length_study_summary.{json,csv}` |
+| Response truncation under the 768-token budget (tokenizer only) | `task1_dpo.count_truncation` | `truncation_profile.json` |
 
 ### Task 2 — PPO
 | Step | Command | Output |
@@ -136,6 +137,7 @@ python report/make_figures.py                                               # al
 | 1. 20-update continuation | `task2_ppo.continue_train --run-name standard` | `standard_train_log.jsonl` |
 | Held-out eval (standard and midpoint) | `task2_ppo.evaluate` | `eval_standard.json`, `eval_midpoint.json` |
 | 2. Clipping study (cached batch + ε forks) | `task2_ppo.analyze_clipping` | `clip_cached_analysis.json`, `clip_study_summary.csv` |
+| 2b. Cached batch re-anchored at the midpoint (reported cached-batch result) | `task2_ppo.clip_reanchored --steps 10` | `clip_cached_reanchored.json` |
 | 3. KL study (β_KL forks) | `task2_ppo.ablate_kl` | `kl_study_summary.csv` |
 
 ### Task 3 — GRPO
@@ -219,7 +221,11 @@ All are stated in the report; they are repeated here so the code can be read wit
   The same rule is applied to every DPO training and evaluation file: 70/1500 standard-train,
   83/1500 length-balanced-train, 15/300 eval and 13/246 stratified pairs are dropped (IDs saved).
   Responses longer than the remaining budget lose their tail tokens, which compresses the length
-  difference DPO sees on the longest pairs.
+  difference DPO sees on the longest pairs (`truncation_profile.json`): 220/1430 standard-train pairs
+  (15.4%) have at least one truncated response, and the mean chosen−rejected length difference DPO
+  sees falls from 45.2 to 40.7 tokens (chosen longer: 57.1% → 54.7%). Truncation is negligible in the
+  length-balanced train set (21/1417) and the stratified evaluation set (3/233), so the per-stratum
+  accuracies are essentially unaffected by it.
 - The standard one-epoch run (all 1430 filtered pairs) and the β forks (the first 600 filtered pairs in
   file order, identical for every β) use different budgets and are labelled separately everywhere.
 - 47.5% of SFT generations hit the released 256-token cap, so generated-length statistics are
@@ -238,10 +244,19 @@ All are stated in the report; they are repeated here so the code can be read wit
 - Forks are matched on updates, prompts and seed; their generated-token counts are logged
   (`tokens_generated`) because response length is chosen by the policy.
 - Cached clipping study: responses are re-tokenized (32/32 reproduce the cached token count
-  exactly), advantages are recomputed with the released GAE from the cached log-probs, values and
-  terminal rewards, and two extra PPO steps per ε on the fixed batch probe how ε constrains
-  movement. "Affected fraction" counts tokens where the clipped branch is selected by the min (no
-  gradient); "clip fraction" is the manual's out-of-band fraction.
+  exactly) and advantages are recomputed with the released GAE from the cached log-probs, values and
+  terminal rewards. "Affected fraction" counts tokens where the clipped branch is selected by the min
+  (no gradient); "clip fraction" is the manual's out-of-band fraction.
+  Our forward pass does not reproduce the cache's stored log-probs: before any update the ratio
+  against the cached π_old is already outside ±5/20/50% on 15.4/4.1/2.1% of tokens. The mismatch is
+  the same for the reference model against the cached reference log-probs (15.7/4.1/2.1%), so it is a
+  re-computation difference, not policy movement; the largest gaps (up to 20 nats) sit in the three
+  rollouts with the longest prompts (near or above the 256-token prompt limit), which suggests the
+  cache was generated from truncated prompts. Following the TA clarification (10 Oct: the cached clip fraction should
+  start at zero), the reported cached-batch result (`clip_reanchored`) re-anchors π_old to our own
+  midpoint log-probs, so step 0 has no clipping, and then takes 10 PPO steps per ε on the fixed batch
+  at the release learning rate. The original measurement (`clip_cached_analysis.json`) is kept as the
+  diagnostic of the mismatch.
 - Explained variance is logged but is ill-conditioned with one prompt per update (near-constant
   returns); value loss is the primary critic diagnostic.
 
@@ -317,7 +332,7 @@ only (no model is loaded); `--list` shows them, and a name regenerates one.
 | `t1_beta` | β sweep: held-out accuracy, KL, reward, length (+ standard run, labelled) |
 | `t1_length` | per-stratum accuracy; how chosen/rejected log-probs moved vs the reference |
 | `t2_trajectories` | PPO: reward, KL, policy/value loss, entropy, clip fraction, grad norm, length |
-| `t2_clipping` | cached clip/affected fraction per ε; ratio range reached in the forks |
+| `t2_clipping` | re-anchored cached batch: ratio range and clip fraction per step and ε; ratio range reached in the forks |
 | `t2_forks` | held-out reward/KL/length of the ε and β forks vs the midpoint |
 | `t3_trajectories` | GRPO: reward, group std, uninformative fraction, KL, grad norm, entropy, length, masking |
 | `t3_group_size` | informative-group rate vs K by difficulty; grouping noise |
@@ -338,13 +353,13 @@ only (no model is loaded); `--list` shows them, and a name regenerates one.
 | DPO standard / β sweep | `results/task1_dpo/eval_{sft,standard,beta_*}.json`, `beta_sweep_summary.csv` |
 | DPO length study, strata, word limits | `results/task1_dpo/length_study_summary.json`, `eval_length_balanced.json`, `pairs_*_stratified.jsonl`, `wordlimit_*.jsonl` |
 | PPO trajectory, cost | `results/task2_ppo/standard_train_log.jsonl`, `standard_train_summary.json` |
-| PPO clipping / KL studies | `results/task2_ppo/clip_cached_analysis.json`, `clip_study_summary.csv`, `kl_study_summary.csv`, `eval_*.json` |
+| PPO clipping / KL studies | `results/task2_ppo/clip_cached_reanchored.json`, `clip_cached_analysis.json` (mismatch diagnostic), `clip_study_summary.csv`, `kl_study_summary.csv`, `eval_*.json` |
 | GRPO trajectory, cost | `results/task3_grpo/standard_train_log.jsonl`, `standard_train_summary.json` |
 | GRPO group size / normalization | `results/task3_grpo/group_size_summary.json`, `normalization_summary.json`, `fork_*_completions.jsonl` |
 | Safety rates, categories, length | `results/task4_safety/safety_summary.json`, `safety_by_category.csv` |
 | Manual audit | `results/task4_safety/manual_audit_sheet.csv`, `audit_confusion_matrix.csv`, `audit_disagreements.csv` |
 | RLVR vs RLAIF | `results/task5_feedback/feedback_comparison.json`, `math_*_summary.json`, `diagnostic_summary.json` |
-| Qualitative examples | the `generations_*.jsonl` files of each task (every response is saved with its prompt ID) |
+| Qualitative examples | the `generations_*.jsonl` files of each task (every response is saved with its prompt ID); candidate list from `python report/shortlist_examples.py` → `results/qualitative_shortlist.md` |
 
 ---
 

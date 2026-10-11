@@ -184,33 +184,32 @@ def t2_trajectories():
 
 
 def t2_clipping():
-    """Cached-batch clip geometry per ε, and the ratio range actually reached in the forks."""
-    c = js(R / "task2_ppo" / "clip_cached_analysis.json")
+    """Re-anchored cached batch (pi_old = midpoint, so step 0 has no clipping): ratio range and clip
+    fraction per probe step for each ε; and the ratio range actually reached in the training forks."""
+    c = js(R / "task2_ppo" / "clip_cached_reanchored.json")
     eps = sorted(c["per_epsilon"], key=float)
-    fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.3))
-    x = np.arange(len(eps))
-    w = 0.38
-    cf = [c["per_epsilon"][e][0]["clip_fraction"] for e in eps]
-    af = [c["per_epsilon"][e][0]["affected_fraction"] for e in eps]
-    axes[0].bar(x - w / 2, cf, w * 0.92, color=C[0], label="outside [1−ε, 1+ε]")
-    axes[0].bar(x + w / 2, af, w * 0.92, color=C[1], label="clipped branch selected (no gradient)")
-    for i, (a, b) in enumerate(zip(cf, af)):
-        axes[0].text(i - w / 2, a, f"{a:.1%}", ha="center", va="bottom", fontsize=6.5, color=INK)
-        axes[0].text(i + w / 2, b, f"{b:.1%}", ha="center", va="bottom", fontsize=6.5, color=INK)
-    axes[0].set_xticks(x, [f"ε={float(e):.2f}" for e in eps])
-    axes[0].set_ylabel(f"fraction of {c['n_tokens']} cached tokens")
-    axes[0].set_ylim(0, max(cf) * 1.45)
-    axes[0].legend(loc="upper right")
-    panel_label(axes[0], "(a) cached batch: clipping geometry")
+    fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.3), sharey=True)
+    for i, e in enumerate(eps):
+        tr = c["per_epsilon"][e]
+        st = [t["step"] for t in tr]
+        last = tr[-1]
+        axes[0].plot(st, [t["ratio_max"] - 1 for t in tr], color=C[i], marker="o", ms=2.5, lw=1.1,
+                     label=f"ε={float(e):.2f}: clip fraction at step {last['step']} = {last['clip_fraction']:.2%}")
+        axes[0].plot(st, [t["ratio_min"] - 1 for t in tr], color=C[i], marker="o", ms=2.5, lw=1.1, ls="--")
+    axes[0].axhspan(-0.05, 0.05, color="#eeeeea", zorder=0)
+    axes[0].text(0.2, 0.047, "±5% band (smallest ε)", fontsize=6.5, color=MUTED, va="top")
+    axes[0].set_xlabel(f"PPO step on the fixed cached batch (lr {c['learning_rate']:g})")
+    axes[0].set_ylabel("max (solid) / min (dashed) ρ − 1")
+    axes[0].set_ylim(-0.11, 0.075)
+    axes[0].legend(loc="lower center", fontsize=6, ncol=1)
+    panel_label(axes[0], "(a) cached batch, π_old re-anchored")
     for i, e in enumerate(eps):
         log = jl(R / "task2_ppo" / f"fork_eps{float(e):.2f}_kl0.10_train_log.jsonl")
         u = [r["update"] for r in log]
         axes[1].plot(u, [r["max_ratio"] - 1 for r in log], color=C[i], marker="o", ms=2.5, lw=1.1, label=f"ε={float(e):.2f} fork")
         axes[1].plot(u, [r["min_ratio"] - 1 for r in log], color=C[i], marker="o", ms=2.5, lw=1.1, ls="--")
     axes[1].axhspan(-0.05, 0.05, color="#eeeeea", zorder=0)
-    axes[1].text(1, 0.047, "±5% band (smallest ε)", fontsize=6.5, color=MUTED, va="top")
     axes[1].set_xlabel("update")
-    axes[1].set_ylabel("max (solid) / min (dashed) ρ − 1")
     axes[1].legend(loc="lower right")
     panel_label(axes[1], "(b) training forks: ratio range reached")
     save(fig, "t2_clipping")

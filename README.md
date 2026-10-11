@@ -33,7 +33,7 @@ task2_ppo/              ppo.py (objectives, fixed), continue_train.py, evaluate.
 task3_grpo/             grpo.py (objectives, fixed), continue_train.py, evaluate.py,
                         analyze_group_size.py, compare_normalization.py
 task4_safety/           generate_responses.py, judge_responses.py (released judge, unchanged),
-                        make_audit_sheet.py, evaluate_safety.py
+                        make_audit_sheet.py, make_audit_tool.py, evaluate_safety.py
 task5_feedback/         rlvr.py, rlaif.py (released verifier/judge, unchanged), evaluate_math.py,
                         score_perturbations.py, compare_feedback.py, probe_judge_raw.py,
                         analyze_position_bias.py
@@ -152,6 +152,7 @@ python report/make_figures.py                                               # al
 | 1. Greedy responses, 4 policies × 450 prompts | `task4_safety.generate_responses` | `generated_{sft,dpo,ppo,grpo}.jsonl` |
 | 2. Released AI judge | `task4_safety.judge_responses` | `judged_*.jsonl` |
 | 3. Blind audit sheet (60 fixed IDs) | `task4_safety.make_audit_sheet` | `manual_audit_sheet.csv` (labels), `manual_audit_key.csv` |
+| 3b. Optional browser labelling view of the blind sheet (no AI labels or policy names embedded) | `task4_safety.make_audit_tool` | `audit_tool.html` |
 | Aggregation + audit agreement | `task4_safety.evaluate_safety` | `safety_summary.json`, `safety_by_category.csv`, `audit_confusion_matrix.csv`, `audit_disagreements.csv` |
 
 ### Task 5 — RLVR vs RLAIF

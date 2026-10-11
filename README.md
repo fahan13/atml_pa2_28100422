@@ -298,8 +298,7 @@ All are stated in the report; they are repeated here so the code can be read wit
   judge loader/prompt/parser in `task4_safety/judge_responses.py` are byte-identical to the release.
 - Every PPO and GRPO fork starts from the identical supplied midpoint; every DPO run starts from
   the original Qwen2.5-1.5B-Instruct with a fresh LoRA adapter.
-- The manual audit was labelled blind to AI labels and policy identity, before agreement was
-  computed.
+- The manual audit was labelled blind to the AI-judge labels and to policy identity.
 - Run-to-run noise is visible in the results: three PPO ε forks that made mathematically identical
   updates (no ratio ever left ±4%, so clipping never bound) still differ by up to 0.09 in held-out
   reward through GPU non-determinism in sampling. Differences of that size are treated as noise.
@@ -365,11 +364,3 @@ Data: UltraFeedback (Cui et al., 2023), XSTest (Röttger et al., NAACL 2024), GS
 2021), SVAMP (Patel et al., NAACL 2021).
 
 Libraries: PyTorch, Hugging Face Transformers, PEFT, TRL, bitsandbytes, NumPy, pandas, matplotlib.
-
----
-
-## 11. Use of AI assistance
-
-An AI assistant was used for writing and debugging code, for explanation of the methods, and for
-review of the experimental design. All experiments were run by the author, the manual audit labels
-are the author's own, and the report was written entirely by the author.

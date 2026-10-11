@@ -132,7 +132,7 @@ def t1_length():
     d = R / "task1_dpo"
     strata = [("preferred_longer", "chosen\nlonger"), ("length_matched", "matched"), ("rejected_longer", "rejected\nlonger")]
     models = [("standard", "standard DPO", C[0]), ("length_balanced", "length-balanced DPO", C[6])]
-    fig, axes = plt.subplots(1, 3, figsize=(7.4, 2.4), gridspec_kw={"width_ratios": [1.1, 1, 1], "wspace": 0.42})
+    fig, axes = plt.subplots(1, 3, figsize=(7.4, 2.4), gridspec_kw={"width_ratios": [1.1, 1, 1], "wspace": 0.55})
     w = 0.38
     for i, (m, lab, col) in enumerate(models):
         st = js(d / f"eval_{m}.json")["stratified"]["by_stratum"]
@@ -142,9 +142,10 @@ def t1_length():
                     error_kw={"lw": 0.8, "ecolor": INK})
     axes[0].axhline(0.5, color=GREY, ls=":", lw=1)
     axes[0].set_xticks(range(3), [s[1] for s in strata])
-    axes[0].set_ylim(0, 1)
-    axes[0].legend(loc="upper left")
-    panel_label(axes[0], "(a) pref. accuracy by length stratum")
+    axes[0].set_ylim(0, 1.22)
+    axes[0].set_yticks(np.arange(0, 1.01, 0.2))
+    axes[0].legend(loc="upper left", fontsize=7)
+    panel_label(axes[0], "(a) accuracy by length stratum")
     for ax, (m, lab, _) in zip(axes[1:], models):
         rows = jl(d / f"pairs_{m}_stratified.jsonl")
         dc = [np.mean([r["policy_chosen_logp"] - r["ref_chosen_logp"] for r in rows if r["stratum"] == s]) for s, _ in strata]
@@ -153,7 +154,7 @@ def t1_length():
         ax.bar(np.arange(3) + w / 2, dr, w * 0.92, color=C[7], label="rejected")
         ax.axhline(0, color=MUTED, lw=0.8)
         ax.set_xticks(range(3), [s[1] for s in strata])
-        panel_label(ax, f"({'b' if ax is axes[1] else 'c'}) {lab.split()[0]}: Δ log-prob vs ref.")
+        panel_label(ax, f"({'b' if ax is axes[1] else 'c'}) {lab.split()[0].replace('length-balanced', 'balanced')}: Δ log-prob")
     axes[1].set_ylabel("mean log π_θ − log π_ref (summed)")
     axes[1].legend(loc="lower left")
     save(fig, "t1_length")
